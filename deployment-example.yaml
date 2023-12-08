@@ -1,0 +1,53 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fortigate-netbox
+  namespace: example
+spec:
+  selector:
+    matchLabels:
+      app: fortigate-netbox
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: fortigate-netbox
+        app.kubernetes.io/name: fortigate-netbox
+    spec:
+      volumes:
+        - name: env-vars-secrets
+          secret:
+            secretName: fortigate-netbox-env-secrets
+            items:
+            - key: .env-secrets
+              path: .env-secrets
+        - name: env-vars-config
+          configMap:
+            name: fortigate-netbox-env-config
+            items:
+            - key: .env-config
+              path: .env-config
+        - name: cron
+          configMap:
+            name: fortigate-netbox-cron
+            items:
+            - key: cron
+              path: root
+      containers:
+      - name: fortigate-netbox
+        image: untestedengineer/fortigate-netbox:v1.0.0-alpine
+        imagePullPolicy: Always
+        resources:
+          limits:
+            memory: "256Mi"
+            cpu: "125m"
+        volumeMounts:
+          - name: env-vars-secrets
+            mountPath: /opt/fortigate-netbox/env_vars/.env-secrets
+            subPath: .env-secrets
+          - name: env-vars-config
+            mountPath: /opt/fortigate-netbox/env_vars/.env-config
+            subPath: .env-config
+          - name: cron
+            mountPath: /etc/crontabs/root
+            subPath: root

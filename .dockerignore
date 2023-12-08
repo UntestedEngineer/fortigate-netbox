@@ -1,0 +1,11 @@
+#.dockerignore
+**/.dockerignore
+**/.gitignore
+**/.env
+**/sample.env*
+**/__pycache__
+**/*.pyc
+**/*.pyo
+**/*.pyd
+**/.Python
+**/pip-log.txt

@@ -1,0 +1,2 @@
+# min    hour     day      month    weekday    command
+*/15        *        *        *        *          /opt/fortigate-netbox/bin/python3 /opt/fortigate-netbox/main.py
