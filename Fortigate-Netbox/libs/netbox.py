@@ -1,14 +1,14 @@
 import pynetbox
 from pprint import pprint
 
-import config
+from config import config
 
 class NetboxInteraction:
             
     # Define Netbox connector with environment variables
     try:
         nb = pynetbox.api(
-        config.config['NB_HOST'], token=config.secrets['NB_TOKEN']
+        config['NB_HOST'], token=config['NB_TOKEN']
         )
 
     except Exception as ex:
@@ -20,13 +20,13 @@ class NetboxInteraction:
 
     # Validate whether HTTP is set to true or false.  Must be set to false for self-signed certificates
     def validate_http_verify(self):
-        if config.config['NB_HTTP_VERIFY'].lower() != "true" and config.config['NB_HTTP_VERIFY'].lower() != "false":
+        if config['NB_HTTP_VERIFY'].lower() != "true" and config['NB_HTTP_VERIFY'].lower() != "false":
             print(f"Netbox HTTP verify must be true or false")
 
             return
         
         else:
-            self.nb.http_session.verify = eval(config.config['NB_HTTP_VERIFY'])
+            self.nb.http_session.verify = eval(config['NB_HTTP_VERIFY'])
         
     # Get Netbox IP for further processing
     def get_netbox_interfaces(self, fg_wan_name):
@@ -36,7 +36,7 @@ class NetboxInteraction:
         nb_interfaces = []
 
         # Retrieve WAN interfaces name from Fortigate library for query
-        nb_interfaces = self.nb.dcim.interfaces.filter(device=config.config['NB_DEVICE_NAME'], name=fg_wan_name)
+        nb_interfaces = self.nb.dcim.interfaces.filter(device=config['NB_DEVICE_NAME'], name=fg_wan_name)
 
         return nb_interfaces
           
@@ -87,7 +87,7 @@ class NetboxInteraction:
             try:
                 nb_create_ip = self.nb.ipam.ip_addresses.create(
                     address=fg_wan_ip,
-                    tenant=config.config['NB_TENANT_ID'],
+                    tenant=config['NB_TENANT_ID'],
                     assigned_object_type="dcim.interface",
                     assigned_object_id=self.nb_interface.id
                     )     

@@ -1,27 +1,27 @@
 from pprint import pprint
 from libs import fortigate
 from libs import netbox
-import config
+from config import config
 
 
 if __name__ == "__main__":
     
-    if not config.config['FG_HOST']:
+    if not config['FG_HOST']:
         print("Fortigate host be set")
 
-    elif not config.config['FG_USERNAME']:
+    elif not config['FG_USERNAME']:
         print("Fortigate username must be set")
 
-    elif not config.secrets['FG_PASSWORD']:
+    elif not config['FG_PASSWORD']:
         print("Fortigate password must be set")
 
-    elif not config.config['NB_HOST']:
+    elif not config['NB_HOST']:
         print("Netbox host must be set")
 
-    elif not config.secrets['NB_TOKEN']:
+    elif not config['NB_TOKEN']:
         print("Netbox token must be set")
 
-    elif not config.config['NB_DEVICE_NAME']:
+    elif not config['NB_DEVICE_NAME']:
         print("Netbox device name must be set")
 
     # Make sure Fortigate interface exists with provided environment variable
