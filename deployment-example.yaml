@@ -3,16 +3,24 @@ kind: Deployment
 metadata:
   name: fortigate-netbox
   namespace: example
+  labels:
+    app.kubernetes.io/instance: fortigate-netbox
+    app.kubernetes.io/name: fortigate-netbox
+    app.kubernetes.io/version: v1.0.1
 spec:
   selector:
     matchLabels:
+      app.kubernetes.io/instance: fortigate-netbox
+      app.kubernetes.io/name: fortigate-netbox
       app: fortigate-netbox
   replicas: 1
   template:
     metadata:
       labels:
-        app: fortigate-netbox
+        app.kubernetes.io/instance: fortigate-netbox
         app.kubernetes.io/name: fortigate-netbox
+        app.kubernetes.io/version: v1.0.1
+        app: fortigate-netbox
     spec:
       volumes:
         - name: env-vars-secrets
@@ -35,7 +43,7 @@ spec:
               path: root
       containers:
       - name: fortigate-netbox
-        image: untestedengineer/fortigate-netbox:v1.0.0-alpine
+        image: untestedengineer/fortigate-netbox:v1.0.1-alpine
         imagePullPolicy: Always
         resources:
           limits:

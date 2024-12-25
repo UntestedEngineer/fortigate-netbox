@@ -1,5 +1,5 @@
 # Build the python application
-FROM python:3.11.7-alpine3.18 as base
+FROM python:3.12.8-alpine3.21 AS base
 
 RUN apk upgrade --no-cache && apk add --no-cache gcc libc-dev libffi-dev
 
@@ -11,7 +11,7 @@ COPY Fortigate-Netbox/ /opt/fortigate-netbox
 RUN pip install -r /opt/fortigate-netbox/requirements.txt
 
 # Copy the python application for running
-FROM python:3.11.7-alpine3.18
+FROM python:3.12.8-alpine3.21
 
 RUN apk upgrade --no-cache
 
