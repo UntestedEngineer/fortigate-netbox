@@ -1,27 +1,27 @@
 from pprint import pprint
 from libs import fortigate
 from libs import netbox
-from config import config
+import config
 
 
 if __name__ == "__main__":
     
-    if not config['FG_HOST']:
+    if not config.config['FG_HOST']:
         print("Fortigate host be set")
 
-    elif not config['FG_USERNAME']:
+    elif not config.config['FG_USERNAME']:
         print("Fortigate username must be set")
 
-    elif not config['FG_PASSWORD']:
+    elif not config.secrets['FG_PASSWORD']:
         print("Fortigate password must be set")
 
-    elif not config['NB_HOST']:
+    elif not config.config['NB_HOST']:
         print("Netbox host must be set")
 
-    elif not config['NB_TOKEN']:
+    elif not config.secrets['NB_TOKEN']:
         print("Netbox token must be set")
 
-    elif not config['NB_DEVICE_NAME']:
+    elif not config.config['NB_DEVICE_NAME']:
         print("Netbox device name must be set")
 
     # Make sure Fortigate interface exists with provided environment variable
@@ -29,7 +29,7 @@ if __name__ == "__main__":
         print("Specified Fortigate interface(s) does not exist")
 
     else:
-        # Iterate through list of WAN interfaces returned from Fortigat
+        # Iterate through list of WAN interfaces returned from Fortigate
         for wan in fortigate.get_fortigate_wan():
             
             fg_wan_name = wan['fg_wan_name']
@@ -65,5 +65,3 @@ if __name__ == "__main__":
                 else:
                     print(f"Problem with Netbox IP, skipping {fg_wan_name}.  Investigate manually")
                     continue
-
-           

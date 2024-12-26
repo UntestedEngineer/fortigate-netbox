@@ -1,4 +1,4 @@
 ipaddress
-fortigate_api
+fortigate-api
 pynetbox
 python-dotenv
